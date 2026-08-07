@@ -1,4 +1,3 @@
-
 # Toàn vẹn dữ liệu với `ON DELETE`
 
 Khi một **bản ghi ở bảng cha (Parent)** bị xóa, Database phải quyết định sẽ xử lý các bản ghi ở **bảng con (Child)** như thế nào. Hành vi này được cấu hình bằng `ON DELETE`.
