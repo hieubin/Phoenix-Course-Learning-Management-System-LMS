@@ -14,7 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "dev:day8": "nodemon experiments/day8/app.js"
+    "dev:day8": "nodemon experiments/day8/app.js",
+    "seed:admin": "node scripts/seed-admin.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
