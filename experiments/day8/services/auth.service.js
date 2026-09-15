@@ -10,7 +10,7 @@ function normalizeEmail(email) {
 }
 
 function toSafeUser(user) {
-  return { id: user.id, name: user.name, email: user.email };
+  return { id: user.id, name: user.name, email: user.email, role: user.role };
 }
 
 export async function registerUser({ email, password, name }) {
@@ -32,13 +32,17 @@ export async function loginUser({ email, password }) {
   if (!passwordMatches) throw new HttpError(401, 'Invalid email or password');
 
   const safeUser = toSafeUser(user);
+<<<<<<< HEAD
   return { user: safeUser, token: signToken({ userId: safeUser.id }) };
+=======
+  return { user: safeUser, token: signToken({ userId: safeUser.id, role: user.role }) };
+>>>>>>> 1f0e04a (feat: complete day11)
 }
 
 export async function findCurrentUser(userId) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, name: true, email: true },
+    select: { id: true, name: true, email: true, role: true },
   });
   if (!user) throw new HttpError(401, 'Unauthorized');
   return user;
