@@ -1,10 +1,11 @@
 import * as postsService from '../services/posts.service.js';
+import { sendSuccess } from '../lib/response.js';
 
 export async function create(req, res, next) {
   try {
     const { title, content } = req.body;
     const post = await postsService.createPost({ title, content, authorId: req.user.id });
-    res.status(201).json(post);
+    sendSuccess(res, post, 201);
   } catch (error) {
     next(error);
   }
@@ -12,8 +13,8 @@ export async function create(req, res, next) {
 
 export async function findMany(req, res, next) {
   try {
-    const posts = await postsService.findPosts();
-    res.json(posts);
+    const posts = await postsService.findPosts(req.query);
+    sendSuccess(res, posts);
   } catch (error) {
     next(error);
   }
@@ -23,7 +24,7 @@ export async function findById(req, res, next) {
   try {
     const id = Number(req.params.id);
     const post = await postsService.findPostById(id);
-    res.json(post);
+    sendSuccess(res, post);
   } catch (error) {
     next(error);
   }
@@ -34,7 +35,7 @@ export async function update(req, res, next) {
     const id = Number(req.params.id);
     const { title, content } = req.body;
     const post = await postsService.updatePost(id, { title, content });
-    res.json(post);
+    sendSuccess(res, post);
   } catch (error) {
     next(error);
   }

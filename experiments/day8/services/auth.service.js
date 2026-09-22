@@ -32,11 +32,7 @@ export async function loginUser({ email, password }) {
   if (!passwordMatches) throw new HttpError(401, 'Invalid email or password');
 
   const safeUser = toSafeUser(user);
-<<<<<<< HEAD
-  return { user: safeUser, token: signToken({ userId: safeUser.id }) };
-=======
   return { user: safeUser, token: signToken({ userId: safeUser.id, role: user.role }) };
->>>>>>> 1f0e04a (feat: complete day11)
 }
 
 export async function findCurrentUser(userId) {

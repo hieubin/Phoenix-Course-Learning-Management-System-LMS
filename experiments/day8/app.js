@@ -6,6 +6,7 @@ import authRouter from './routes/auth.routes.js';
 import cors from 'cors';
 import errorHandler from './middlewares/errorHandler.js';
 import sessionMiddleware from './middlewares/session.js';
+import { sendSuccess } from './lib/response.js';
 
 dotenv.config();
 
@@ -21,12 +22,12 @@ app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 
 app.get('/', (req, res) => {
-  res.send('Day 8 Prisma CRUD server');
+  sendSuccess(res, null, 200, 'Day 8 Prisma CRUD server');
 });
 
 // 404 for unmatched routes (API)
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ success: false, data: null, message: 'Not Found' });
 });
 
 // Centralized error handler (must be last)

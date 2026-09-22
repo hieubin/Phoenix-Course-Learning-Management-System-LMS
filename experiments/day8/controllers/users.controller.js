@@ -1,5 +1,7 @@
 import * as usersService from '../services/users.service.js';
 import HttpError from '../errors/httpError.js';
+import { sendSuccess } from '../lib/response.js';
+import * as postsService from '../services/posts.service.js';
 
 export async function create(req, res, next) {
   next(new HttpError(410, 'Use POST /auth/register to create a user'));
@@ -8,7 +10,7 @@ export async function create(req, res, next) {
 export async function findMany(req, res, next) {
   try {
     const users = await usersService.findUsers();
-    res.json(users);
+    sendSuccess(res, users);
   } catch (error) {
     next(error);
   }
@@ -18,7 +20,17 @@ export async function findById(req, res, next) {
   try {
     const id = Number(req.params.id);
     const user = await usersService.findUserById(id);
-    res.json(user);
+    sendSuccess(res, user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function findPosts(req, res, next) {
+  try {
+    const authorId = Number(req.params.id);
+    const posts = await postsService.findPosts({ ...req.query, authorId });
+    sendSuccess(res, posts);
   } catch (error) {
     next(error);
   }
@@ -29,7 +41,7 @@ export async function update(req, res, next) {
     const id = Number(req.params.id);
     const { name, email, phone } = req.body;
     const user = await usersService.updateUser(id, { name, email, phone });
-    res.json(user);
+    sendSuccess(res, user);
   } catch (error) {
     next(error);
   }
@@ -45,4 +57,4 @@ export async function remove(req, res, next) {
   }
 }
 
-export default { create, findMany, findById, update, remove };
+export default { create, findMany, findById, findPosts, update, remove };
